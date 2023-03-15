@@ -71,6 +71,15 @@ router.use((req, res, next) => {
         return res.json({ success: false, message: 'problem dengan token!' })
       } else {
         req.decoded = decoded
+        // apakah sudah expired
+        if (decoded.exp <= Date.now() / 1000) {
+          return res.status(400).send({
+            success: false,
+            message: 'token sudah expired!',
+            date: Date.now() / 1000,
+            exp: decoded.exp,
+          })
+        }
         next()
       }
     })
@@ -86,6 +95,23 @@ router.get('/users', (req, res) => {
   User.find({})
     .then((users) => {
       res.json(users)
+    })
+    .catch((error) => {
+      console.error(error)
+      res.status(500).send('Internal Server Error')
+    })
+})
+
+// halaman profile
+router.get('/profile', (req, res) => {
+  User.findById(req.decoded.id)
+    .then((user) => {
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: 'User tidak ditemukan' })
+      }
+      res.json(user)
     })
     .catch((error) => {
       console.error(error)

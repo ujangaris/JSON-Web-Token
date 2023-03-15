@@ -119,3 +119,26 @@
                 "success": false,
                 "message": "problem dengan token!"
             }
+
+## Menampilkan data yang sedang login
+
+    Todo:
+    1.  server.js
+        - halaman profile
+    2.  pengujian pada postman
+        - lakukan login pada endpoint login
+        - endpoint POST http://localhost:3000/api/login
+        - body => x-www-form-urlencoded
+        - email : isi dengan email terdaftar
+        - password : isi dengan password terdaftar
+        - kemudian coba akses endpoint all user: GET http://localhost:3000/api/user
+            pada header=> tambahkan Authorization dan pastekan tokennya, kemudian send
+        - jika sudah login akan berhasil menampilkan data,
+        - kemudian masuk ke endpoint : http://localhost:3000/api/profile,
+          pada headers : masukan Authorization : pastekan tokennya, kemudian send
+        - response akan menampilkan data user yang sedang login :
+            {
+                "_id": "641104a399f5291da20c1444",
+                "email": "ujang@mail.test",
+                "password": "test"
+            }
