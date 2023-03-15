@@ -89,3 +89,33 @@
 
         - lakukan percobaan jika password salah/email salah
         - response akan menampilkan pesan kesalah.
+
+## Login generate token
+
+    Todo:
+    1.  server.js
+        - proteksi route dengan token
+        - mengambil token dengan header
+        - decode token
+        Noted: penempatan proteksi route harus dibawah dari root home,atau endpoint
+        yang tidak ingin diproteksi, karna proteksi akan berjalan pada endpoint
+        yang berada dibawah proteksi route dengan token ini
+    2.  pengujian pada postman
+        - lakukan login pada endpoint login
+        - endpoint POST http://localhost:3000/api/login
+        - body => x-www-form-urlencoded
+        - email : isi dengan email terdaftar
+        - password : isi dengan password terdaftar
+        - kemudian coba akses endpoint all user: GET http://localhost:3000/api/user
+            pada header=> tambahkan Authorization dan pastekan tokennya, kemudian send
+        - jika sudah login akan berhasil menampilkan data,
+        - namun jika belum login akan menampilkan respon pesan:
+            {
+                "success": false,
+                "message": "token tidak tersedia"
+            }
+        - jika token di isi dengan asal data :
+            {
+                "success": false,
+                "message": "problem dengan token!"
+            }

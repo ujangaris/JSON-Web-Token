@@ -57,6 +57,31 @@ router.post('/login', async (req, res) => {
 router.get('/', (req, res) => {
   res.send('ini di route home!')
 })
+
+// proteksi route dengan token
+router.use((req, res, next) => {
+  // mengambil token dengan tiga cara
+  // cara kedua : http://localhost:3000/api/token?<nilaidaritoken>
+  // let token = req.body.token || req.query.token || req.headers['authorization']
+  let token = req.headers['authorization']
+  // decode token
+  if (token) {
+    jwt.verify(token, app.get('secretKey'), (err, decoded) => {
+      if (err) {
+        return res.json({ success: false, message: 'problem dengan token!' })
+      } else {
+        req.decoded = decoded
+        next()
+      }
+    })
+  } else {
+    return res.status(403).send({
+      success: false,
+      message: 'token tidak tersedia',
+    })
+  }
+})
+
 router.get('/users', (req, res) => {
   User.find({})
     .then((users) => {
