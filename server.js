@@ -26,6 +26,34 @@ app.set('secretKey', config.secret)
 app.use(cors())
 
 // Router API
+// endpoint login
+router.post('/login', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email })
+    if (!user) {
+      res
+        .status(401)
+        .json({ success: false, message: 'User tidak ada didatabase' })
+      return
+    }
+    // harusnya passwordnya hash
+    if (user.password != req.body.password) {
+      res.status(401).json({ success: false, message: 'password user salah!' })
+      return
+    }
+    // membuat token
+    const token = jwt.sign({ id: user._id }, app.get('secretKey'), {
+      expiresIn: '24h',
+    })
+    // mengirim balik token
+    res.json({ success: true, message: 'token berhasil di dapatkan!', token })
+    // jika error
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Internal Server Error')
+  }
+})
+
 router.get('/', (req, res) => {
   res.send('ini di route home!')
 })

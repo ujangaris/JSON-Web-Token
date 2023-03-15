@@ -52,7 +52,7 @@
         endpoint GET http://localhost:3000/api/
             response: ini di route home!
         endpoint GET http://localhost:3000/api/users
-            response: 
+            response:
             [
                 {
                     "_id": "641104a399f5291da20c1444",
@@ -65,3 +65,27 @@
                     "password": "test"
                 }
             ]
+
+## Login generate token
+
+    Todo:
+    1.  server.js
+        - endpoint login
+        - harusnya passwordnya hash
+        - membuat token
+        - mengirim balik token
+        - jika error
+    2.  pengujian pada postman
+        - endpoint POST http://localhost:3000/api/login
+        - body => x-www-form-urlencoded
+        - email : isi dengan email terdaftar
+        - password : isi dengan password terdaftar
+        - response jika email dan password benar:
+            {
+                "success": true,
+                "message": "token berhasil di dapatkan!",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTEwNGEzOTlmNTI5MWRhMjBjMTQ0NCIsImlhdCI6MTY3ODg0MDExOCwiZXhwIjoxNjc4OTI2NTE4fQ.VHIc1BcY5zAiMLhX94g-96RdA0VN9NnhTqVHfNSaR9o"
+            }
+
+        - lakukan percobaan jika password salah/email salah
+        - response akan menampilkan pesan kesalah.
